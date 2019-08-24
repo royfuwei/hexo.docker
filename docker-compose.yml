@@ -1,0 +1,48 @@
+version: '3.1'
+services:
+  hexo.server:
+    image: royfuwei/hexo:$HEXO_VERSION
+    build:
+      context: ./
+      #args:
+      #  NODE_VERSION: $NODE_VERSION
+    restart: always
+    container_name: hexo.server
+    tty: true
+    environment:
+      - GIT_USER=${GIT_USER}
+      - GIT_EMAIL=${GIT_EMAIL}
+    volumes:
+      - ./hexo:/hexo
+      - ./ssh:/root/.ssh
+    ports:
+      - $HEXO_PORT:4000
+    networks:
+      - hexo
+    command:
+      ["hexo", "server"]
+  
+  hexo:
+    image: royfuwei/hexo:$HEXO_VERSION
+    build:
+      context: ./
+      #args:
+      #  NODE_VERSION: $NODE_VERSION
+    restart: always
+    container_name: hexo
+    user: 1000:1000
+    tty: true
+    environment:
+      - GIT_USER=${GIT_USER}
+      - GIT_EMAIL=${GIT_EMAIL}
+    volumes:
+      - ./hexo:/hexo
+      - ./ssh:/home/node/.ssh
+    depends_on:
+      - hexo.server
+    networks:
+      - hexo
+
+networks:
+  hexo:
+    external: false
