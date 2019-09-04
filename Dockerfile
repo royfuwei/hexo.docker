@@ -5,14 +5,18 @@ FROM node:12.8.1-alpine
 
 RUN apk add --no-cache git openssh-client
 RUN apk add --no-cache 'su-exec>=0.2' bash
+RUN apk add --no-cache tzdata
 RUN npm install -g yarn
 RUN yarn global add typescript hexo-cli
 
+ENV TZ Asia/Taipei
 ENV HEXO_FILE /hexo
 ENV NODE_SSH_FILE /home/node/.ssh
 ENV ROOT_SSH_FILE /root/.ssh
 
 WORKDIR ${HEXO_FILE}
+
+RUN echo "${TZ}" > /etc/timezone
 
 RUN set -eux; \
 # create .ssh file && chown node
