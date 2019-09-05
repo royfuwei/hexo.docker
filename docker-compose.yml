@@ -20,7 +20,7 @@ services:
     networks:
       - hexo
     command:
-      ["hexo", "server"]
+      ["hexo", "server", "-s"]
   
   hexo:
     image: royfuwei/hexo:$HEXO_VERSION
