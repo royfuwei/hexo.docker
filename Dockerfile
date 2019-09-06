@@ -27,7 +27,7 @@ RUN set -eux; \
 # hexo init && add
     hexo init "${HEXO_FILE}"; \
     chown -R node:node "${HEXO_FILE}"; \
-    su-exec node yarn add hexo-deployer-git hexo-generator-sitemap hexo-asset-image; \
+    su-exec node yarn add hexo-deployer-git hexo-generator-sitemap hexo-asset-image@git+https://github.com/xcodebuild/hexo-asset-image.git; \
 # need to save initial hexo init file for pre-seeding empty volumes
     mv "${HEXO_FILE}" "${HEXO_FILE}.orig"; \
     mkdir -p "${HEXO_FILE}"; \
